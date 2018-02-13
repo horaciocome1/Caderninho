@@ -527,6 +527,8 @@ public class Inicio extends javax.swing.JFrame {
         txtPrecoVenda.setText("");
         PanelManager pm = new PanelManager();
         pm.loadPanel(panelParentProduto, panelDetalheProduto);
+        if (!tbProduto.isEnabled())
+            tbProduto.setEnabled(true);
     }//GEN-LAST:event_btCancelProdutoActionPerformed
 
     private void btSaveProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveProdutoActionPerformed
@@ -613,9 +615,19 @@ public class Inicio extends javax.swing.JFrame {
         if (tbProduto.getSelectedRow() == -1) {
             //nenhuma linha seleccionada
         } else {
-            int id = Integer.parseInt(tbProduto.getValueAt(tbProduto.getSelectedRow(), 0).toString());
-            ProdutoDAO pdao = new ProdutoDAO();
-            pdao.delete(id);
+            if (tbProduto.getSelectedRowCount() > 1) {
+                // se o utilizador tiver selecionado mais de uma linha
+                ProdutoDAO pdao = new ProdutoDAO();
+                for (int selectedRow : tbProduto.getSelectedRows()) {
+                    int id = Integer.parseInt(tbProduto.getValueAt(selectedRow, 0).toString());
+                    pdao.delete(id);
+                }
+            } else {
+                // se tiver sido seleccionada apenas uma linha da tabela
+                int id = Integer.parseInt(tbProduto.getValueAt(tbProduto.getSelectedRow(), 0).toString());
+                ProdutoDAO pdao = new ProdutoDAO();
+                pdao.delete(id);
+            }
             // depois de eliminar do banco, actualizo a tabela
             TableManager tm = new TableManager();
             tm.updateProdutos(tbProduto, txtSearchProduto.getText());
@@ -627,16 +639,20 @@ public class Inicio extends javax.swing.JFrame {
         if (tbProduto.getSelectedRow() == -1) {
             // nenhuma linha selecionada
         } else {
-            // primeiro vou desativar a tabela para que o utilizador nao altere a linha selecionada, vou precisar do ID nela futuramente
-            tbProduto.setEnabled(false);
-            PanelManager pm = new PanelManager();
-            pm.loadPanel(panelParentProduto, panelCadastroProduto);
-            int id = Integer.parseInt(tbProduto.getValueAt(tbProduto.getSelectedRow(), 0).toString());
-            ProdutoDAO pdao = new ProdutoDAO();
-            txtProduto.setText(pdao.getOne(id).getNome());
-            txtDesc.setText(pdao.getOne(id).getDesc());
-            txtPrecoGueva.setText(String.valueOf(pdao.getOne(id).getpCompra()));
-            txtPrecoVenda.setText(String.valueOf(pdao.getOne(id).getpVenda()));
+            if (tbProduto.getSelectedRowCount() > 1) {
+                // mais de um produto selecionado na tabela. nao sera possivel editar
+            } else {
+                // primeiro vou desativar a tabela para que o utilizador nao altere a linha selecionada, vou precisar do ID nela futuramente
+                tbProduto.setEnabled(false);
+                PanelManager pm = new PanelManager();
+                pm.loadPanel(panelParentProduto, panelCadastroProduto);
+                int id = Integer.parseInt(tbProduto.getValueAt(tbProduto.getSelectedRow(), 0).toString());
+                ProdutoDAO pdao = new ProdutoDAO();
+                txtProduto.setText(pdao.getOne(id).getNome());
+                txtDesc.setText(pdao.getOne(id).getDesc());
+                txtPrecoGueva.setText(String.valueOf(pdao.getOne(id).getpCompra()));
+                txtPrecoVenda.setText(String.valueOf(pdao.getOne(id).getpVenda()));
+            }
         }
     }//GEN-LAST:event_btEditProdutoActionPerformed
 
