@@ -232,7 +232,7 @@ public class Inicio extends javax.swing.JFrame {
 
         lblImgProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/amazing-beautiful-love-quotes-wallpapers-pics-images-photos-19.jpg"))); // NOI18N
         lblImgProduto.setToolTipText("Imagem descritiva.");
-        lblImgProduto.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblImgProduto.setBorder(new javax.swing.border.SoftBevelBorder(0));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel2.setLabelFor(lblProduto);
@@ -359,6 +359,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel1.setToolTipText("Insira o nome correspondente ao produto em questão");
 
         txtProduto.setText("Tomate Verde Pequeno");
+        txtProduto.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         jLabel3.setLabelFor(txtDesc);
         jLabel3.setText("Descrição:");
@@ -409,7 +410,7 @@ public class Inicio extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
                             .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(panelCadastroProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addComponent(txtPrecoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -419,8 +420,8 @@ public class Inicio extends javax.swing.JFrame {
                 .addGroup(panelCadastroProdutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jSeparator1)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelCadastroProdutoLayout.setVerticalGroup(
@@ -747,8 +748,8 @@ public class Inicio extends javax.swing.JFrame {
             int id = Integer.parseInt(tbProduto.getValueAt(tbProduto.getSelectedRow(), 0).toString());
             ProdutoDAO pdao = new ProdutoDAO();
             lblProduto.setText(pdao.getOne(id).getNome());
-            lblProdutoPreco.setText(String.valueOf(pdao.getOne(id).getpCompra()) + " MT / " +
-                    String.valueOf(pdao.getOne(id).getpVenda()) + " MT");
+            lblProdutoPreco.setText(String.valueOf(pdao.getOne(id).getCusto()) + " MT / " +
+                    String.valueOf(pdao.getOne(id).getPreco()) + " MT");
             // como utilizei 3 labels diferentes para a descricao, terei que fazer os arranjos abaixo
             String desc = pdao.getOne(id).getDesc();
             if (desc.length() < 46) {
@@ -780,8 +781,8 @@ public class Inicio extends javax.swing.JFrame {
             int id = Integer.parseInt(tbProduto.getValueAt(tbProduto.getSelectedRow(), 0).toString());
             ProdutoDAO pdao = new ProdutoDAO();
             lblProduto.setText(pdao.getOne(id).getNome());
-            lblProdutoPreco.setText(String.valueOf(pdao.getOne(id).getpCompra()) + " MT / " +
-                    String.valueOf(pdao.getOne(id).getpVenda()) + " MT");
+            lblProdutoPreco.setText(String.valueOf(pdao.getOne(id).getCusto()) + " MT / " +
+                    String.valueOf(pdao.getOne(id).getPreco()) + " MT");
             // como utilizei 3 labels diferentes para a descricao, terei que fazer os arranjos abaixo
             String desc = pdao.getOne(id).getDesc();
             if (desc.length() < 46) {
@@ -848,8 +849,8 @@ public class Inicio extends javax.swing.JFrame {
                 ProdutoDAO pdao = new ProdutoDAO();
                 txtProduto.setText(pdao.getOne(id).getNome());
                 txtDesc.setText(pdao.getOne(id).getDesc());
-                txtPrecoGueva.setText(String.valueOf(pdao.getOne(id).getpCompra()));
-                txtPrecoVenda.setText(String.valueOf(pdao.getOne(id).getpVenda()));
+                txtPrecoGueva.setText(String.valueOf(pdao.getOne(id).getCusto()));
+                txtPrecoVenda.setText(String.valueOf(pdao.getOne(id).getPreco()));
             }
         }
     }//GEN-LAST:event_btEditProdutoActionPerformed

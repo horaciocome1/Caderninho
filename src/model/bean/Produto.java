@@ -13,7 +13,7 @@ public class Produto {
     
     private int id, qtd;
     private String nome, desc;
-    private float pCompra, pVenda;
+    private float custo, preco;
 
     public int getId() {
         return id;
@@ -47,20 +47,20 @@ public class Produto {
         this.desc = desc;
     }
 
-    public float getpCompra() {
-        return pCompra;
+    public float getCusto() {
+        return custo;
     }
 
-    public void setpCompra(float pCompra) {
-        this.pCompra = pCompra;
+    public void setCusto(float custo) {
+        this.custo = custo;
     }
 
-    public float getpVenda() {
-        return pVenda;
+    public float getPreco() {
+        return preco;
     }
 
-    public void setpVenda(float pVenda) {
-        this.pVenda = pVenda;
+    public void setPreco(float preco) {
+        this.preco = preco;
     }
     
     

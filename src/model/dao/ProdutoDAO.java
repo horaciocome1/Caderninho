@@ -25,12 +25,12 @@ public class ProdutoDAO {
         Connection con = cf.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement("insert into produto (nome, descricao, pgueva, pvenda)"
+            stmt = con.prepareStatement("insert into produto (nome, desc, custo, preco)"
                     + " values (?, ?, ?, ?)");
             stmt.setString(1, produto.getNome());
             stmt.setString(2, produto.getDesc());
-            stmt.setFloat(3, produto.getpCompra());
-            stmt.setFloat(4, produto.getpVenda());
+            stmt.setFloat(3, produto.getCusto());
+            stmt.setFloat(4, produto.getPreco());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
@@ -77,9 +77,9 @@ public class ProdutoDAO {
                 Produto p = new Produto();
                 p.setId(rs.getInt("id"));
                 p.setNome(rs.getString("nome"));
-                p.setDesc(rs.getString("descricao"));
-                p.setpCompra(rs.getFloat("pgueva"));
-                p.setpVenda(rs.getFloat("pvenda"));
+                p.setDesc(rs.getString("desc"));
+                p.setCusto(rs.getFloat("custo"));
+                p.setPreco(rs.getFloat("preco"));
                 //p.setQtd(rs.getInt("qtdDisponivel"));
                 produtos.add(p);
             }
@@ -105,10 +105,10 @@ public class ProdutoDAO {
             if (rs.first()) {
                 p.setId(rs.getInt("id"));
                 p.setNome(rs.getString("nome"));
-                p.setDesc(rs.getString("descricao"));
+                p.setDesc(rs.getString("desc"));
 //                p.setQtd(rs.getInt("qtdDisponivel"));
-                p.setpCompra(rs.getFloat("pgueva"));
-                p.setpVenda(rs.getFloat("pvenda"));
+                p.setCusto(rs.getFloat("custo"));
+                p.setPreco(rs.getFloat("preco"));
             }
             return p;
         } catch (SQLException ex) {
@@ -127,7 +127,7 @@ public class ProdutoDAO {
             stmt.setInt(1, idProduto);
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            throw new RuntimeException();
+            throw new RuntimeException(ex);
         } finally {
             cf.closeConnection(con, stmt);
         }
@@ -139,11 +139,11 @@ public class ProdutoDAO {
         Connection con = cf.getConnection();
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement("update produto set nome = ?, descricao = ?, pgueva = ?, pvenda = ? where id = ?");
+            stmt = con.prepareStatement("update produto set nome = ?, desc = ?, custo = ?, preco = ? where id = ?");
             stmt.setString(1, p.getNome());
             stmt.setString(2, p.getDesc());
-            stmt.setFloat(3, p.getpCompra());
-            stmt.setFloat(4, p.getpVenda());
+            stmt.setFloat(3, p.getCusto());
+            stmt.setFloat(4, p.getPreco());
             stmt.setInt(5, p.getId());
             stmt.executeUpdate();
         } catch (SQLException ex) {

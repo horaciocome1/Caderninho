@@ -61,8 +61,8 @@ public class CadastroManager {
                     p.setNome(txtProduto.getText());
                     if (!txtDesc.getText().equalsIgnoreCase(""))
                         p.setDesc(txtDesc.getText());
-                    p.setpCompra(pgueva);
-                    p.setpVenda(pvenda);
+                    p.setCusto(pgueva);
+                    p.setPreco(pvenda);
                     ProdutoDAO pdao = new ProdutoDAO();
                     if (tabela.isEnabled()) {
                         // se a tabela produtos estiver activa se trata de um puro cadastro
@@ -147,14 +147,18 @@ public class CadastroManager {
         // encontra e incrementa a quantidade
         Produto newProduto = new Produto();
         newProduto.setId(id);
-        for (Produto produto : this.produtos) {
-            if (produto.getId() == newProduto.getId()) {
-                newProduto.setQtd(produto.getQtd() + 1); 
-                newProduto.setpVenda(produto.getpVenda());
-                this.produtos.set(this.produtos.indexOf(produto), newProduto);
-                setTotal();
-            }
-        }
+        this.produtos.stream().filter((produto) -> (produto.getId() == newProduto.getId())).map((produto) -> {
+            newProduto.setQtd(produto.getQtd() + 1);
+            return produto;
+        }).map((produto) -> {
+            newProduto.setPreco(produto.getPreco());
+            return produto;
+        }).map((produto) -> {
+            this.produtos.set(this.produtos.indexOf(produto), newProduto);
+            return produto;
+        }).forEachOrdered((_item) -> {
+            setTotal();
+        });
     }
     
     public void diminuirQtd(int id) {
@@ -163,17 +167,17 @@ public class CadastroManager {
         // caso seja 1 so, o produto eh removido
         Produto newProduto = new Produto();
         newProduto.setId(id);
-        for (Produto produto : this.produtos) {
-            if (produto.getId() == newProduto.getId()) {
-                if (produto.getQtd() == 1)
-                    this.produtos.remove(produto);
-                else { // assumindo que nao havera um produto com quantidade nula nesta lista
-                    newProduto.setQtd(produto.getQtd() - 1); // o novo recebe a qtd do antigo decrementada
-                    this.produtos.set(this.produtos.indexOf(produto), newProduto);
-                }
-                setTotal();
+        this.produtos.stream().filter((produto) -> (produto.getId() == newProduto.getId())).map((produto) -> {
+            if (produto.getQtd() == 1)
+                this.produtos.remove(produto);
+            else { // assumindo que nao havera um produto com quantidade nula nesta lista
+                newProduto.setQtd(produto.getQtd() - 1); // o novo recebe a qtd do antigo decrementada
+                this.produtos.set(this.produtos.indexOf(produto), newProduto);
             }
-        }
+            return produto;
+        }).forEachOrdered((_item) -> {
+            setTotal();
+        });
     }
 
     public List<Produto> getProdutos() {
@@ -187,7 +191,7 @@ public class CadastroManager {
 
     private void setTotal() {
         produtos.forEach((produto) -> {
-            total = total + (produto.getQtd() * produto.getpVenda());
+            total = total + (produto.getQtd() * produto.getPreco());
         });
     }
     

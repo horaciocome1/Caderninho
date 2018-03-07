@@ -123,7 +123,7 @@ public class TableManager {
             if (produto.getQtd() > 0) // so produtos disponiveis
                 modelo.addRow(new Object[]{
                     produto.getId(),
-                    produto.getpVenda(),
+                    produto.getPreco(),
                     produto.getNome(),
                     produto.getQtd(),
                 });
