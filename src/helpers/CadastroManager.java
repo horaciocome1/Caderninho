@@ -55,7 +55,7 @@ public class CadastroManager {
             try {
                 float pgueva = Float.parseFloat(txtPrecoGueva.getText());
                 try {
-                    float pvenda = Float.parseFloat(txtPrecoGueva.getText());
+                    float pvenda = Float.parseFloat(txtPrecoVenda.getText());
                     // aqui ja posso criar e cadastrar o produto, tudo esta como o banco de dados espera
                     Produto p = new Produto();
                     p.setNome(txtProduto.getText());
@@ -67,13 +67,14 @@ public class CadastroManager {
                     if (tabela.isEnabled()) {
                         // se a tabela produtos estiver activa se trata de um puro cadastro
                         pdao.add(p);
+                        // status bar
                     } else {
                         // caso contrario se trata de editar uma tupla, para que se mantenha fixa a linha a editar
                         // para isso preciso pegar o id na tabela
                         int id = Integer.parseInt(tabela.getValueAt(tabela.getSelectedRow(), 0).toString());
                         p.setId(id);
                         pdao.update(p);
-                        // depois deconcluir a operacao a tabela volta a estar ativa
+                        // depois de concluir a operacao a tabela volta a estar ativa
                         tabela.setEnabled(true);
                     }
                     // vazar todos os campos

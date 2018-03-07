@@ -40,22 +40,19 @@ public class ProdutoDAO {
     }
     
     public List<Produto> getAll() {
+        // so o id e o nome
         ConnectionFactory cf = new ConnectionFactory();
         Connection con = cf.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-            stmt = con.prepareStatement("select * from produto");
+            stmt = con.prepareStatement("select id, nome from produto");
             rs = stmt.executeQuery();
             List<Produto> produtos = new ArrayList<>();
             while (rs.next()) {
                 Produto p = new Produto();
                 p.setId(rs.getInt("id"));
                 p.setNome(rs.getString("nome"));
-                p.setDesc(rs.getString("descricao"));
-                p.setpCompra(rs.getFloat("pgueva"));
-                p.setpVenda(rs.getFloat("pvenda"));
-                //p.setQtd(rs.getInt("qtdDisponivel"));
                 produtos.add(p);
             }
             return produtos;

@@ -24,20 +24,19 @@ import model.dao.ProdutoDAO;
  */
 public class TableManager {
     
-    public void setRowModel(javax.swing.JTable tabela) {
+    public DefaultTableModel rowModel(javax.swing.JTable tabela) {
         // este metodo serve para definir o modelo para as tabelas
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
         tabela.setRowSorter(new TableRowSorter(modelo));
+        return modelo;
     }
     
     public void updateProdutos(javax.swing.JTable tabela, String nome) {
         // este metodo carrega os dados do banco para a tabela tbProduto
-        setRowModel(tabela);
-        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
-        modelo.setRowCount(0);
+        rowModel(tabela).setRowCount(0);
         ProdutoDAO pdao = new ProdutoDAO();
         for (Produto produto : pdao.getLike(nome)) {
-            modelo.addRow(new Object[]{produto.getId(), produto.getNome()});
+            rowModel(tabela).addRow(new Object[]{produto.getId(), produto.getNome()});
         }
     }
     
