@@ -19,7 +19,7 @@ public class ConnectionFactory {
     
     private final String URL = "jdbc:mysql://localhost:3306/caderninho";
     private final String USER = "root";
-    private final String PASS = "head2010";
+    private final String PASS = "********";
     
     public Connection getConnection() {
         try {
